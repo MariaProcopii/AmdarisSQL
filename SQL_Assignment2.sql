@@ -20,7 +20,7 @@ JOIN Person.BusinessEntityAddress bea
 ON s.BusinessEntityID = bea.BusinessEntityID
 JOIN Person.Address a
 ON bea.AddressID = a.AddressID
-WHERE s.SalesYTD <> 0
+WHERE s.SalesYTD <> 0 AND s.TerritoryID IS NOT NULL
 GROUP BY LastName, PostalCode, SalesYTD
 ORDER BY SalesYTD DESC, PostalCode;
 
