@@ -34,4 +34,8 @@ SELECT SalesOrderID, SubTotal
 FROM Sales.SalesOrderHeader
 WHERE SubTotal > 100000;
 
-
+--Fourth Task Manually
+SELECT SalesOrderID, SUM(LineTotal) AS TotalDue
+FROM Sales.SalesOrderDetail
+GROUP BY SalesOrderID
+HAVING SUM(LineTotal) > 100000;
