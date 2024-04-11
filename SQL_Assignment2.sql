@@ -11,10 +11,6 @@ FROM Person.PersonPhone phone
 WHERE LastName LIKE 'L%'
 ORDER BY LastName, FirstName;
 
-SELECT LastName,COUNT(BusinessEntityID)
-FROM Person.Person
-group by LastName
-
 --Third Task
 SELECT LastName, PostalCode, SalesYTD, COUNT(*) AS NumberOfGroups
 FROM Sales.SalesPerson s
