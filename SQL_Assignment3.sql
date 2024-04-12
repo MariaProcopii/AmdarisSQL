@@ -24,20 +24,18 @@ GROUP BY category.Name, subcategory.Name
 ORDER BY PriceIncreaceQty DESC
 
 
---How many sales representative are per geographic area
-SELECT Subquery.Groups, COUNT(*) AS TotalEmployee
-FROM (SELECT IIF(
-                 territory.[Group] IS NULL,
-                 LEFT(employee.JobTitle, 13),
-                 territory.[Group]
-                ) AS Groups
-      FROM HumanResources.Employee employee
-          JOIN Sales.SalesPerson salesPerson 
-              ON salesPerson.BusinessEntityID = employee.BusinessEntityID
-          LEFT JOIN Sales.SalesTerritory AS territory
-              ON salesPerson.TerritoryID = territory.TerritoryID
-      ) AS Subquery
-GROUP BY Subquery.Groups;
+--Name and amount of product which was sold in each region
+SELECT LEFT(product.Name, CHARINDEX(',', product.Name + ',') - 1) AS ProductName,
+       SUM(detail.OrderQty) AS ProductAmount,
+       territory.Name
+FROM Sales.SalesOrderHeader AS orderHeader
+         JOIN Sales.SalesOrderDetail AS detail
+              ON orderHeader.SalesOrderID = detail.SalesOrderID
+         JOIN Production.Product AS product
+              ON detail.ProductID = product.ProductID
+         JOIN Sales.SalesTerritory territory
+              ON orderHeader.TerritoryID = territory.TerritoryID
+GROUP BY product.Name, territory.Name
 
 --Total of employees current working in each department
 SELECT department.Name, COUNT(*) AS TotalEmployees
